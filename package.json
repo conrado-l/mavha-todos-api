@@ -1,0 +1,28 @@
+{
+  "name": "mavha-rest-api-technical-test",
+  "version": "1.0.0",
+  "description": "MAVha technical test",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./node_modules/nodemon/bin/nodemon.js server.js"
+  },
+  "keywords": [
+    "api",
+    "mavha",
+    "rest",
+    "todo"
+  ],
+  "author": "Conrado Ezequiel Levy",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "sequelize": "^4.42.1",
+    "tedious": "^5.0.3"
+  },
+  "devDependencies": {
+    "eslint": "^5.14.1",
+    "nodemon": "^1.18.10",
+    "sequelize-cli": "^5.4.0"
+  }
+}
