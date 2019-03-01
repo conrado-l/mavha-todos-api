@@ -1,5 +1,5 @@
-src/node_modules
-src/package-lock.json
-src/npm-debug.log
+node_modules
+package-lock.json
+npm-debug.log
 .env
 .idea
