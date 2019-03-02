@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    let Todo = sequelize.define('todo', {
+    return sequelize.define('todo', {
             id: {
                 type: DataTypes.INTEGER,
                 primaryKey: true,
@@ -9,11 +9,11 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.TEXT,
                 allowNull: false
             },
-            status: {
+            status: { // TODO: create a status model for handling todo status
                 type: DataTypes.BOOLEAN,
                 defaultValue: false
             },
-            attachment: {
+            attachment: { // TODO: create an attachment model and a 1:1 relation
                 type: DataTypes.TEXT,
                 allowNull: true
             },
@@ -29,6 +29,4 @@ module.exports = (sequelize, DataTypes) => {
         {
             freezeTableName: true
         })
-
-    return Todo
 }

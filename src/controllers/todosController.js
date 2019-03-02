@@ -1,18 +1,64 @@
 const models = require('../models/index')
 const errors = require('../const/errors')
 const fileManager = require('../services/fileManager')
+const filterConstants = require('../const/todo')
+const filterUtils = require('../utils/filters')
+const paginate = require('express-paginate')
+
 module.exports = {
     /**
-     * List all the todos
+     * List and filter todos
      */
-    list: async (req, res, next) => {
+    list: (req, res, next) => { // TODO: Improve field validation
         try {
-            const todos = await models.todo.findAll()
+            // Applied to Sequelize's query
+            let filters = {}
 
-            res.json({
-                success: true,
-                data: todos
+            // Filter by status
+            if (req.query.status) {
+                // Get the status filter
+                let statusFilter = filterUtils.getFilter(filterConstants.filterMapping.status, req.query.status)
+
+                // If the filter is valid, use it
+                if (statusFilter) {
+                    filters.status = statusFilter.VALUE
+                }
+            }
+
+            // Filter by ID
+            if (req.query.id) {
+                filters.id = Number.parseInt(req.query.id)
+            }
+
+            // Filter by description
+            if (req.query.description) {
+                filters.description = {
+                    $like: `%${req.query.description}%`
+                }
+            }
+
+            // Apply the filters, query the DB, setup the pagination settings and create a response
+            models.todo.findAndCountAll({
+                limit: req.query.limit,
+                offset: req.skip,
+                where: {...filters}
+            }).then(results => {
+                // Pagination settings
+                const itemCount = results.count;
+                const pageCount = Math.ceil(results.count / req.query.limit)
+
+                // Create a response
+                res.json({
+                    success: true,
+                    data: {
+                        todos: results.rows,
+                        pageCount,
+                        itemCount,
+                        pages: paginate.getArrayPages(req)(3, pageCount, req.query.page)
+                    }
+                })
             })
+
         } catch (e) {
             next(e)
         }
@@ -22,6 +68,7 @@ module.exports = {
      * Get a todo based on the ID
      */
     get: async (req, res, next) => {
+        // Check for the id parameter
         if (!req.params.todoId) {
             return next(errors.LackingParameters)
         }
@@ -32,8 +79,12 @@ module.exports = {
                 }
             })
 
-            if (!todo) return next(errors.TodoNotFound)
+            // Todo was not found
+            if (!todo) {
+                return next(errors.TodoNotFound)
+            }
 
+            // Create a response
             res.json({
                 success: true,
                 data: {
@@ -46,9 +97,10 @@ module.exports = {
     },
 
     /**
-     * Update the todo status to done based on the ID
+     * Update todo status to done based on the ID
      */
     update: async (req, res, next) => {
+        // Check for the id parameter
         if (!req.params.todoId) {
             return next(errors.LackingParameters)
         }
@@ -58,8 +110,12 @@ module.exports = {
                 status: true
             }, {where: {id: req.params.todoId}})
 
-            if (!todo) return next(errors.TodoNotFound)
+            // Todo was not found
+            if (!todo) {
+                return next(errors.TodoNotFound)
+            }
 
+            // Create a response
             res.json({
                 success: true,
                 data: {
@@ -72,30 +128,36 @@ module.exports = {
     },
 
     /**
-     * Creates a new todo
+     * Create a new todo
      */
-    create: async (req, res, next) => { // Validate fields
+    create: async (req, res, next) => { // TODO: Validate fields
+        // Check for the description parameter
         if (!req.body.description) {
             return next(errors.LackingParameters)
         }
 
-        const description = req.sanitize(req.body.description) // Sanitize to avoid XSS attacks
-        const files = req.files
+        // Sanitize description to avoid XSS attacks
+        const description = req.sanitize(req.body.description)
+        const files = req.files // TODO: check for file mime-type?
         let newTodo = {description}
         let persistedFilename
 
-        if (Object.keys(files).length === 1) { // If there is a file (just one), upload it
+        // If there is a file (just one), try to upload it
+        if (files && Object.keys(files).length === 1) { // TODO: add error for handling multiple files
             persistedFilename = await fileManager.generateAttachment(files.file)
 
-            if (!persistedFilename) { // Error when trying to persist the file
+            // Error when trying to persist the file
+            if (!persistedFilename) {
                 return next(errors.TodoCreation)
             }
 
+            // Save the attachment URL
             newTodo.attachment = persistedFilename
         }
 
         models.todo.create(newTodo)
             .then(todo => {
+                // Create a response
                 res.json({
                     success: true,
                     data: {
@@ -104,6 +166,7 @@ module.exports = {
                 })
             })
             .catch(() => {
+                // Delete the attachment file - TODO: improve by using Sequelize's creation hooks and commit/rollback
                 fileManager.deleteAttachment(persistedFilename)
                 return next(errors.TodoCreation)
             })

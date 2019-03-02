@@ -3,10 +3,16 @@ const router = express.Router()
 const todosController = require('../controllers/todosController')
 
 /**
-* @api {get} /todo List todos
+* @api {get} /todo List and filter todos
 * @apiName TodoList
 * @apiGroup Todo
-* @apiSuccessExample Success-Response:
+* @apiParam {string} description Filter by description
+* @apiParam {string} status Filter by status
+* @apiParam {string} id Filter by id
+* @apiParam {number} limit Amount of todos per page
+* @apiParam {number} page Page number
+
+ * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK
 *     {
 *       success: true,

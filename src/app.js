@@ -7,6 +7,7 @@ const expressSanitizer = require('express-sanitizer')
 const todosRouter = require('./routes/todosRoute')
 const basicAuth = require('./middlewares/basicAuth')
 const errorHandler = require('./middlewares/error')
+const paginate = require('express-paginate')
 
 /**
  * Plugins & Middlewares
@@ -20,15 +21,14 @@ app.use(express.static(path.join(__dirname, 'public')))
  * Routes
  */
 app.get('/', (req, res) => res.json({success: true, message: 'Welcome to MAVha Todo REST API'}))
-app.use('/todo', todosRouter)
 app.use('/apidoc', basicAuth, express.static(path.join(__dirname, 'apidoc')))
-
+app.use(paginate.middleware(10, 50));
+app.use('/todo', todosRouter)
 /**
  * Error handling
  */
 app.use(errorHandler)
-
 /**
  * Server initialization
  */
-app.listen(8080, () => console.log('MAVha Todos REST API listening on port 8080'))
+app.listen(8080, () => console.log('MAVha Todos REST API listening on port 8080')) // TODO: extract port to .env file

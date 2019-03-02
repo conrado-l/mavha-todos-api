@@ -18,7 +18,7 @@ module.exports = {
         const filename = `${uuid}.${fileExtension}`
 
         return new Promise((resolve, reject) => {
-            fs.writeFile(`./public/attachments/${filename}`, file.data, (err) => {
+            fs.writeFile(`./public/attachments/${filename}`, file.data, (err) => { // TODO: get the path based on .env
                 if (err) {
                     reject(null)
                 }
@@ -28,7 +28,7 @@ module.exports = {
     },
 
     /**
-     * Deletes a file given a filename
+     * Deletes an attachment given a filename
      * @param {string} filename
      */
     deleteAttachment: (filename) => {

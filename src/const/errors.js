@@ -4,7 +4,7 @@
 module.exports = {
     'TodoNotFound': {
         code: 1,
-        message: 'The todo does not exist'
+        message: 'Todo does not exist'
     },
     'LackingParameters': {
         code: 2,
