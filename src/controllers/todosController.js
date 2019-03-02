@@ -106,14 +106,24 @@ module.exports = {
         }
 
         try {
-            let todo = await models.todo.update({
-                status: true
-            }, {where: {id: req.params.todoId}})
+            // Find todo
+            let todo = await models.todo.findOne({where: {id: req.params.todoId}})
 
             // Todo was not found
             if (!todo) {
                 return next(errors.TodoNotFound)
             }
+
+            // Update todo
+            await todo.update(
+                {
+                    status: true
+                },
+                {
+                    where: {
+                        id: req.params.todoId
+                    }
+                })
 
             // Create a response
             res.json({
