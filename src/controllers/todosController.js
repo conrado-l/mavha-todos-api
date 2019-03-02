@@ -180,5 +180,50 @@ module.exports = {
                 fileManager.deleteAttachment(persistedFilename)
                 return next(errors.TodoCreation)
             })
-    }
+    },
+
+    /**
+     * Delete todo based on the ID
+     */
+    delete: async (req, res, next) => {
+        // Check for the id parameter
+        if (!req.params.todoId) {
+            return next(errors.LackingParameters)
+        }
+
+        try {
+            // Find todo
+            let todo = await models.todo.findOne({where: {id: req.params.todoId}})
+
+            // Todo was not found
+            if (!todo) {
+                return next(errors.TodoNotFound)
+            }
+
+            // Delete todo
+            todo.destroy()
+                .then((deletedTodo) => {
+                    res.json({
+                        success: true,
+                        data: {
+                            deletedTodo
+                        }
+                    })
+                })
+                .catch((err) => {
+
+                })
+
+            // Create a response
+            res.json({
+                success: true,
+                data: {
+                    todo
+                }
+            })
+        } catch (e) {
+            next(e)
+        }
+    },
+
 }

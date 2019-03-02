@@ -2,16 +2,20 @@
  * Error handling
  */
 module.exports = {
-    'TodoNotFound': {
-        code: 1,
-        message: 'Todo does not exist'
-    },
     'LackingParameters': {
-        code: 2,
+        code: 1,
         message: 'Some parameters are missing'
+    },
+    'TodoNotFound': {
+        code: 2,
+        message: 'Todo does not exist'
     },
     'TodoCreation': {
         code: 3,
-        message: 'An error has occured when creating the todo'
+        message: 'An error has occured when creating to-do'
+    },
+    'TodoDeletion': {
+        code: 4,
+        message: 'An error has occured when deleting to-do'
     }
 }
