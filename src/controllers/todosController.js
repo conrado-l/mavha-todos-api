@@ -1,13 +1,9 @@
 const models = require('../models/index')
 const errors = require('../const/errors')
-const fileGenerator = require('../services/staticFileGenerator')
+const fileManager = require('../services/fileManager')
 module.exports = {
     /**
      * List all the todos
-     * @param req
-     * @param res
-     * @param next
-     * @returns {Promise<void>}
      */
     list: async (req, res, next) => {
         try {
@@ -24,10 +20,6 @@ module.exports = {
 
     /**
      * Get a todo based on the ID
-     * @param req
-     * @param res
-     * @param next
-     * @returns {Promise<*>}
      */
     get: async (req, res, next) => {
         if (!req.params.todoId) {
@@ -55,10 +47,6 @@ module.exports = {
 
     /**
      * Update the todo status to done based on the ID
-     * @param req
-     * @param res
-     * @param next
-     * @returns {Promise<*>}
      */
     update: async (req, res, next) => {
         if (!req.params.todoId) {
@@ -85,10 +73,6 @@ module.exports = {
 
     /**
      * Creates a new todo
-     * @param req
-     * @param res
-     * @param next
-     * @returns {Promise<*>}
      */
     create: async (req, res, next) => { // Validate fields
         if (!req.body.description) {
@@ -96,16 +80,18 @@ module.exports = {
         }
 
         const description = req.sanitize(req.body.description) // Sanitize to avoid XSS attacks
-        const newTodo = { description }
         const files = req.files
-        let persistedFilename = ''
+        let newTodo = {description}
+        let persistedFilename
 
         if (Object.keys(files).length === 1) { // If there is a file (just one), upload it
-            persistedFilename = fileGenerator()
-            if (!persistedFilename) {
+            persistedFilename = await fileManager.generateAttachment(files.file)
+
+            if (!persistedFilename) { // Error when trying to persist the file
                 return next(errors.TodoCreation)
             }
-            newTodo.attachment = files.file
+
+            newTodo.attachment = persistedFilename
         }
 
         models.todo.create(newTodo)
@@ -118,6 +104,7 @@ module.exports = {
                 })
             })
             .catch(() => {
+                fileManager.deleteAttachment(persistedFilename)
                 return next(errors.TodoCreation)
             })
     }
