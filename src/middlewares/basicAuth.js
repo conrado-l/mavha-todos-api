@@ -6,7 +6,7 @@ const auth = require('basic-auth')
 module.exports = function (req, res, next) {
     let user = auth(req)
 
-    if (user === undefined || user['name'] !== 'MAVha' || user['pass'] !== 'MAVha') {
+    if (user === undefined || user['name'] !== 'MAvha' || user['pass'] !== 'MAvha') { // TODO: extract credentials to .env file
         res.statusCode = 401
         res.setHeader('WWW-Authenticate', 'Basic realm="Node"')
         res.end('Unauthorized')

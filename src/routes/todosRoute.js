@@ -9,7 +9,7 @@ const todosController = require('../controllers/todosController')
  * @apiParam {string} description Filter by description
  * @apiParam {string} status Filter by status
  * @apiParam {string} id Filter by id
- * @apiParam {number} limit Amount of todos per page
+ * @apiParam {number} limit Amount of to-dos per page
  * @apiParam {number} page Page number
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
@@ -124,6 +124,6 @@ router.post('/', todosController.create)
  *       }
  *     }
  */
-router.delete('/:todoId', todosController.get)
+router.delete('/:todoId', todosController.delete)
 
 module.exports = router

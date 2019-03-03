@@ -1,22 +1,22 @@
 {
   "development": {
-    "username": "root",
-    "password": null,
-    "database": "mavha-api",
+    "username": "mavha",
+    "password": "mavha",
+    "database": "mavha",
     "host": "127.0.0.1",
     "dialect": "mssql"
   },
   "test": {
     "username": "root",
     "password": null,
-    "database": "mavha-api",
+    "database": "mavha",
     "host": "test-host",
     "dialect": "mssql"
   },
   "production": {
     "username": "root",
     "password": null,
-    "database": "mavha-api",
+    "database": "mavha",
     "host": "production-host",
     "dialect": "mssql"
   }

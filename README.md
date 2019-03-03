@@ -1,4 +1,4 @@
-# MAVha Todo REST API
+# MAvha Todo REST API
 
 ## Requirements
 * NodeJS 10.15.2
@@ -7,7 +7,11 @@
 ## Setup
 #### Dependencies
 ```
- npm install
+npm install
+```
+#### Database settings
+```
+src/config/config.json
 ```
 #### Database creation
 ```
@@ -38,5 +42,14 @@ npm run prod
 ```
 
 ## Documentation
+Generate API routes documentation
 ```
-APIDOC
+npm run apidoc
+```
+The documentation will be available at:
+``` 
+http://localhost:8080/apidoc
+
+User: MAvha
+Password: MAvha
+```
