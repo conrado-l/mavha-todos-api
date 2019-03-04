@@ -32,10 +32,6 @@ npm run tests
 ```
 npm run dev
 ```
-#### Production
-```
-npm run prod
-```
 
 ## Documentation
 Generate API routes documentation
