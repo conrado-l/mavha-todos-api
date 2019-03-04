@@ -13,16 +13,16 @@ module.exports = {
      * @return url
      */
     generateAttachment: (file) => {
-        const uuid = uuidv4()
-        const fileExtension = file.name.split('.').pop() // Get the original file extension
-        const filename = `${uuid}.${fileExtension}`
+        // const uuid = uuidv4()
+        // const fileExtension = file.name.split('.').pop() // Get the original file extension
+        // const filename = `${file.name}.${fileExtension}`
 
         return new Promise((resolve, reject) => {
-            fs.writeFile(`./public/attachments/${filename}`, file.data, (err) => { // TODO: get the path based on .env
+            fs.writeFile(`./public/attachments/${file.name}`, file.data, (err) => {
                 if (err) {
                     reject(null)
                 }
-                resolve(filename)
+                resolve(`http://localhost:8080/attachments/${file.name}`) // TODO: get the path based on .env (URL + port)
             })
         })
     },
