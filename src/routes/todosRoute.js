@@ -17,22 +17,38 @@ const todosController = require('../controllers/todosController')
  *       success: true,
  *       data: {
  *         todos: [
- *         {
- *          id: 1,
- *          status: true,
- *          attachment: "plate.jpg",
- *          description: 'Cook dinner',
- *          createdAt: "2019-03-02T09:03:38.000Z",
- *          updatedAt: "2019-03-02T22:52:40.000Z"
- *         },
- *         {
- *          id: 2,
- *          status: false,
- *          attachment: "how-to-buy-bread.pdf",
- *          description: 'Buy bread',
- *          createdAt: "2019-03-02T09:03:38.000Z",
- *          updatedAt: "2019-03-02T22:52:40.000Z"
- *         }
+ *          {
+ *           id: 1,
+ *           status: true,
+ *           attachment: "plate.jpg",
+ *           description: 'Cook dinner',
+ *           createdAt: "2019-03-02T09:03:38.000Z",
+ *           updatedAt: "2019-03-02T22:52:40.000Z"
+ *          },
+ *          {
+ *           id: 2,
+ *           status: false,
+ *           attachment: "how-to-buy-bread.pdf",
+ *           description: 'Buy bread',
+ *           createdAt: "2019-03-02T09:03:38.000Z",
+ *           updatedAt: "2019-03-02T22:52:40.000Z"
+ *          }
+ *         ],
+ *         itemCount: 26
+ *         pageCount: 3
+ *         pages: [
+ *          {
+ *           number: 1,
+ *           url: "/todo/?status=all&page=1&limit=10"
+ *          },
+ *          {
+ *           number: 2,
+ *           url: "/todo/?status=all&page=2&limit=10"
+ *          },
+ *          {
+ *           number: 3,
+ *           url: "/todo/?status=all&page=3&limit=10"
+ *          },
  *         ]
  *       }
  *     }
@@ -85,7 +101,7 @@ router.put('/:todoId', todosController.update)
  * @apiName CreateTodo
  * @apiGroup Todo
  * @apiParam {string} description To-do's description
- * @apiParam {file} page To-do's attachment
+ * @apiParam {file} file To-do's attachment
  *  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
  *     {
