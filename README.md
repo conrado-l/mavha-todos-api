@@ -2,9 +2,10 @@
 
 ## Requirements
 * NodeJS 10.15.2
-* Microsoft SQL Server
+* Microsoft SQL Server 2017
 
 ## Setup
+##### Disclaimer: current directory must be `/src`
 #### Dependencies
 ```
 npm install
@@ -24,15 +25,14 @@ npm run db:migrate
 
 ## Running
 
-#### Tests
-```
-npm run tests
-```
 #### Development
 ```
 npm run dev
 ```
-
+#### Tests
+```
+npm run tests
+```
 ## Documentation
 Generate API routes documentation
 ```
