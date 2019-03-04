@@ -118,7 +118,7 @@ module.exports = {
             // Update todo
             await todo.update(
                 {
-                    status: true
+                    status: !todo.status
                 },
                 {
                     where: {
