@@ -41,6 +41,7 @@ module.exports = {
             models.todo.findAndCountAll({
                 limit: req.query.limit,
                 offset: req.skip,
+                order: [['createdAt', 'DESC']],
                 where: {...filters}
             }).then(results => {
                 // Pagination settings
@@ -147,8 +148,8 @@ module.exports = {
         }
 
         // Sanitize description to avoid XSS attacks
-        const description = req.sanitize(req.body.description)
-        const files = req.files // TODO: check for file mime-type?
+        const description = req.sanitize(req.body.description) // TODO: trim string and return error if empty
+        const files = req.files // TODO: check for file mime-type
         let newTodo = {description}
         let persistedFilename
 
