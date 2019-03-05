@@ -98,7 +98,7 @@ module.exports = {
     },
 
     /**
-     * Update todo status to done based on the ID
+     * Toggle todo status based on the ID
      */
     update: async (req, res, next) => {
         // Check for the id parameter
