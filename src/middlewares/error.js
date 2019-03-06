@@ -1,8 +1,7 @@
-const errors = require('../const/errors')
 /**
  * Error management
  */
-module.exports = function (err, req, res, next) {
+module.exports = function (err, req, res) {
     let response = {
         success: false,
         error: {

@@ -79,6 +79,7 @@ router.get('/:todoId', todosController.get)
  * @api {put} /todo Update to-do
  * @apiName UpdateTodo
  * @apiGroup Todo
+ * @apiParam {number} id To-do's ID
  *  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
  *     {
