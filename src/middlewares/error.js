@@ -1,7 +1,7 @@
 /**
  * Error management
  */
-module.exports = function (err, req, res) {
+module.exports = function (err, req, res, next) {
     let response = {
         success: false,
         error: {
@@ -9,5 +9,5 @@ module.exports = function (err, req, res) {
             message: err.message || 'Internal Server Error'
         }
     }
-    res.status(200).json(response)
+    res.status(400).json(response)
 }

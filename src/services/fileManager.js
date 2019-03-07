@@ -33,5 +33,19 @@ module.exports = {
      */
     deleteAttachment: (filename) => {
         fs.unlinkSync(`./public/attachments/${filename}`)
+    },
+
+    /**
+     * Checks if a mimetype matches an element from an array of mimetypes
+     * @param {string} mimetype
+     * @param {array} mimetypes
+     */
+    checkMimetype: (mimetype, mimetypes) => {
+        // for loop is more performant, some is more readable
+        return mimetypes.some((mimetypeElement) => {
+            console.log(mimetypeElement)
+            return mimetype === mimetypeElement
+        })
+
     }
 }
